@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Home from './home'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [userdata,setUserdata]=useState('')
+  const [error,setError]=useState(null)
 
   const getCSRFToken = () => {
     const cookieValue = document.cookie
@@ -31,18 +34,27 @@ const LoginPage = () => {
 
       if (response.status === 200) {
         console.log('Success:', response.data);
-        // If successful, you can redirect to the home page or perform other actions
+        setUserdata(response.data)
       } else {
         console.log('Failed:', response.data);
       }
     } catch (error) {
       console.error('Error during login:', error.message);
+      setError('login failed')
     }
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Login</h2>
+    <>
+    {userdata ? (
+      <>
+        <Home data={userdata}/>
+      </>
+    ):(
+    
+    <>
+      <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 rounded-md shadow-md">
+      <h2 className="text-2xl font-semibold mb-4 text-green-500">Login</h2>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-600">Username:</label>
         <input
@@ -67,7 +79,14 @@ const LoginPage = () => {
       >
         Login
       </button>
+      
     </div>
+    {error && (
+      <p className="text-red-500 mt-4 text-2xl">login failed</p>
+    )}
+    </>
+    )}
+    </>
   );
 };
 

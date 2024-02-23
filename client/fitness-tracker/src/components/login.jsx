@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Home from './home'
+import NavBar from './nav'
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -48,11 +49,13 @@ const LoginPage = () => {
     <>
     {userdata ? (
       <>
+        <NavBar data={userdata}/>
         <Home data={userdata}/>
       </>
     ):(
     
     <>
+      <NavBar data={userdata}/>
       <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 rounded-md shadow-md">
       <h2 className="text-2xl font-semibold mb-4 text-green-500">Login</h2>
       <div className="mb-4">
@@ -81,6 +84,7 @@ const LoginPage = () => {
       </button>
       
     </div>
+    <p>Do not have an account.<a href="/signup">Signup</a></p>
     {error && (
       <p className="text-red-500 mt-4 text-2xl">login failed</p>
     )}

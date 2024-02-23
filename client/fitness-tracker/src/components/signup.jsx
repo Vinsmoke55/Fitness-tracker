@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import NavBar from './nav'
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
@@ -41,8 +42,10 @@ const SignupPage = () => {
   };
 
   return (
+    <>
+      <NavBar />
     <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 rounded-md shadow-md">
-      <h2 className="text-2xl font-semibold mb-4">Signup</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-green-500">Signup</h2>
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-600">Username:</label>
         <input
@@ -77,6 +80,7 @@ const SignupPage = () => {
         Signup
       </button>
     </div>
+    </>
   );
 };
 

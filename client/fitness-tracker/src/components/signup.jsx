@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './nav'
+import Loader from './loader';
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading,setLoading]=useState(false);
+  const navigateTo=useNavigate();
 
   const getCSRFToken = () => {
     const cookieValue = document.cookie
@@ -18,6 +22,7 @@ const SignupPage = () => {
 
   const handleSignup = async () => {
     try {
+      setLoading(true)
       const csrfToken = getCSRFToken();
 
       const response = await axios.post(
@@ -33,16 +38,22 @@ const SignupPage = () => {
 
       if (response.status === 200) {
         console.log('Success:', response.data);
+        navigateTo('/');
       } else {
         console.log('Failed:', response.data);
       }
     } catch (error) {
       console.error('Error during signup:', error.message);
+    }finally{
+      setLoading(false)
     }
   };
 
   return (
     <>
+      {loading && <Loader />}
+      {!loading && (
+        <>
       <NavBar />
     <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 rounded-md shadow-md">
       <h2 className="text-2xl font-semibold mb-4 text-green-500">Signup</h2>
@@ -80,6 +91,8 @@ const SignupPage = () => {
         Signup
       </button>
     </div>
+    </>
+        )}
     </>
   );
 };

@@ -1,60 +1,85 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
 
 const Navbar = ({data}) => {
+    const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
+  const handleOutsideClick = (e) => {
+    if (!document.getElementById('sidebar').contains(e.target) && !document.getElementById('open-sidebar').contains(e.target)) {
+      setSidebarOpen(false);
+    }
+  };
+
+  React.useEffect(() => {
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, []);
   return (
     <>
       {data ?(    
-      <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-white text-xl font-bold">
-          Fitness Tracker
-        </Link>
-
-        <ul className="flex space-x-4">
-          <li>
-            <Link to="/" className="text-white hover:text-gray-300">
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/workouts" className="text-white hover:text-gray-300">
-              Workouts
-            </Link>
-          </li>
-          <li>
-            <Link to="/exercises" className="text-white hover:text-gray-300">
-              Exercises
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile" className="text-white hover:text-gray-300">
-              Profile
-            </Link>
-          </li>
-        </ul>
+    <div className="bg-gray-500">
+      <div className="flex overflow-hidden bg-gray-500">
+        <div className={`absolute bg-gray-800 text-white w-56 min-h-screen overflow-y-auto transition-transform ${isSidebarOpen ? '' : 'transform -translate-x-full'} ease-in-out duration-300`} id="sidebar">
+          <div className="p-4">
+            <h1 className="text-2xl font-semibold">Sidebar</h1>
+            <ul className="mt-4">
+              <li className="mb-2"><a href="/" className="block hover:text-indigo-400">Home</a></li>
+              <li className="mb-2"><a href="#" className="block hover:text-indigo-400">Workouts</a></li>
+              <li className="mb-2"><a href="#" className="block hover:text-indigo-400">Exercises</a></li>
+              <li className="mb-2"><a href="#" className="block hover:text-indigo-400">Profile</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="bg-black shadow">
+            <div className="container mx-auto">
+              <div className="flex justify-between items-center py-4 px-2">
+                <h1 className="text-xl font-semibold text-white">Fitness Tracker</h1>
+                <button className="text-gray-500 hover:text-gray-600" id="open-sidebar" onClick={toggleSidebar}>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </nav>):(
-        <nav className="bg-gray-800 p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-white text-xl font-bold">
-          Fitness Tracker
-        </Link>
-
-        <ul className="flex space-x-4">
-          <li>
-            <Link to="/" className="text-white hover:text-gray-300">
-              Login
-            </Link>
-          </li>
-          <li>
-            <Link to="/signup" className="text-white hover:text-gray-300">
-              Signup
-            </Link>
-          </li>
-        </ul>
+    </div>
+    ):(
+    <div className="bg-gray-500">
+      <div className="flex overflow-hidden bg-gray-500">
+        <div className={`absolute bg-gray-800 text-white w-56 min-h-screen overflow-y-auto transition-transform ${isSidebarOpen ? '' : 'transform -translate-x-full'} ease-in-out duration-300`} id="sidebar">
+          <div className="p-4">
+            <h1 className="text-2xl font-semibold">Sidebar</h1>
+            <ul className="mt-4">
+              <li className="mb-2"><a href="/" className="block hover:text-indigo-400">login</a></li>
+              <li className="mb-2"><a href="/signup" className="block hover:text-indigo-400">Signup</a></li>
+            </ul>
+          </div>
+        </div>
+        <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="bg-black shadow">
+            <div className="container mx-auto">
+              <div className="flex justify-between items-center py-4 px-2">
+                <h1 className="text-xl font-semibold text-white">Fitness Tracker</h1>
+                <button className="text-gray-500 hover:text-gray-600" id="open-sidebar" onClick={toggleSidebar}>
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </nav>
+    </div>
     )}
 
     </>

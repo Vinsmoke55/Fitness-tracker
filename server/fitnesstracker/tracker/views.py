@@ -8,7 +8,6 @@ from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 from .serializers import UserSerializer
 
-# Create your views here.
 def index(request):
 	return HttpResponse('hello world')
 

@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status,viewsets
+from .models import Exercise, Workout, WorkoutExercise
+from .serializers import ExerciseSerializer, WorkoutSerializer, WorkoutExerciseSerializer,UserSerializer
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-from .serializers import UserSerializer
 
 def index(request):
 	return HttpResponse('hello world')
@@ -33,3 +34,15 @@ class SignupView(APIView):
 		user.set_password(password)
 		user.save()
 		return Response({"message":"sucess"})
+
+class ExerciseViewSet(viewsets.ModelViewSet):
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+
+class WorkoutViewSet(viewsets.ModelViewSet):
+    queryset = Workout.objects.all()
+    serializer_class = WorkoutSerializer
+
+class WorkoutExerciseViewSet(viewsets.ModelViewSet):
+    queryset = WorkoutExercise.objects.all()
+    serializer_class = WorkoutExerciseSerializer

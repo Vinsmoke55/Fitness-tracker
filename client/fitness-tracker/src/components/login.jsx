@@ -93,7 +93,7 @@ const LoginPage = () => {
                 </button>
               </div>
               <p className="text-center font-bold p-2">Do not have an account. <a href="/signup" className="hover:text-green-500">Signup</a></p>
-              {error && <p className="text-red-500 mt-4 text-2xl">{error}</p>}
+              {error && <p className="text-red-500 mt-4 text-2xl text-center">{error}</p>}
             </>
           )}
         </>

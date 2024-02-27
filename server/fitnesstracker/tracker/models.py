@@ -5,6 +5,8 @@ class Exercise(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+    image_link= models.CharField(max_length=255,default='https://f.hubspotusercontent20.net/hubfs/182473/HealthBenefitsFitness.png')
+
 
     def __str__(self):
         return self.name

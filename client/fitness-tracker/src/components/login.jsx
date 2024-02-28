@@ -10,6 +10,7 @@ const LoginPage = () => {
   const [userdata, setUserdata] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const getCSRFToken = () => {
     const cookieValue = document.cookie
@@ -40,6 +41,7 @@ const LoginPage = () => {
       if (response.status === 200) {
         console.log('Success:', response.data);
         setUserdata(response.data);
+        setIsLoggedIn(true)
       } else {
         console.log('Failed:', response.data);
       }
@@ -50,6 +52,13 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserdata('');
+    setUsername('');
+    setPassword('');
+  };
   
 
   return (
@@ -57,9 +66,9 @@ const LoginPage = () => {
       {loading && <Loader />}
       {!loading && (
         <>
-          {userdata ? (
+          {isLoggedIn ? (
             <>
-              <NavBar data={userdata} />
+              <NavBar data={userdata} logout={handleLogout}/>
               <Home data={userdata} />
             </>
           ) : (

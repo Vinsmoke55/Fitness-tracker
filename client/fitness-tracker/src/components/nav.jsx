@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({data}) => {
+const Navbar = ({data,logout}) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -20,6 +20,11 @@ const Navbar = ({data}) => {
       document.removeEventListener('click', handleOutsideClick);
     };
   }, []);
+
+
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
       {data ?(    
@@ -29,9 +34,9 @@ const Navbar = ({data}) => {
           <div className="p-4">
             <h1 className="uppercase "><span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">{data.username}</span></h1>
             <ul className="mt-4 ml-3">
-              <li className="mb-2"><a href="/login" className="block hover:text-indigo-400">Home</a></li>
               <li className="mb-2"><a href="#" className="block hover:text-indigo-400">Workouts</a></li>
               <li className="mb-2"><a href="#" className="block hover:text-indigo-400">Profile</a></li>
+              <button className="bg-black" onClick={handleLogout}>Logout</button>
             </ul>
           </div>
         </div>

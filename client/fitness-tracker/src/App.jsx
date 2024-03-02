@@ -5,6 +5,7 @@ import LoginPage from './components/login';
 import SignupPage from './components/signup';
 import Home from './components/home'
 import Navbar from './components/nav'
+import WorkoutList from './components/workout'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
@@ -20,6 +21,7 @@ const App = () => {
       		} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/login" element={<LoginPage/>} />
+        <Route path="/workout" element={<WorkoutList/>} />
       </Routes>
     </Router>
   );

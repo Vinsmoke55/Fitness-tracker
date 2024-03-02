@@ -43,6 +43,14 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     queryset = Workout.objects.all()
     serializer_class = WorkoutSerializer
 
+
 class WorkoutExerciseViewSet(viewsets.ModelViewSet):
     queryset = WorkoutExercise.objects.all()
     serializer_class = WorkoutExerciseSerializer
+
+
+# class WorkoutExerciseView(APIView):
+# 	def get(self,request):
+# 		wexercise=WorkoutExercise.objects.all()
+# 		serializer=WorkoutExerciseSerializer(wexercise)
+# 		return Response(serializer.data)

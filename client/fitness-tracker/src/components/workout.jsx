@@ -1,34 +1,42 @@
-import React,{useState,useEffect} from 'react';
+// Example using React hooks and Axios
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const WorkoutList = () => {
+    const [workouts, setWorkouts] = useState([]);
 
-const Workout=()=>{
-const [workouts,setWorkouts] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/workouts');
+                setWorkouts(response.data);
+            } catch (error) {
+                console.error('Error fetching workouts:', error);
+            }
+        };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:8000/api/workout/');
-        setWorkout(response.data);
-      } catch (error) {
-        console.error('Error fetching workout:', error);
-      }
-    };
+        fetchData();
+    }, []);
 
-    fetchData();
-  }, []);
-	return (
-		<>
-		<div className="container mx-auto mt-8">
-	      <h1 className="text-3xl font-bold mb-6 text-center">Workout List</h1>
-	      <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-	        {workouts.map((workout) => (
-	          <li>
-	            
-	          </li>
-	        ))}
-	      </ul>
-	    </div>
-		</>
-		)
-}
+    return (
+        <div>
+            <h1>Workouts</h1>
+            <ul>
+                {workouts.map((workout) => (
+                    <li key={workout.id}>
+                        <strong>{workout.user.username}</strong> - {workout.date}
+                        <ul>
+                            {workout.exercises.map((exercise) => (
+                                <li key={exercise.id}>
+                                    {exercise.exercise.name} - {exercise.sets} sets, {exercise.reps} reps, {exercise.weight} kg
+                                </li>
+                            ))}
+                        </ul>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
+
+export default WorkoutList;

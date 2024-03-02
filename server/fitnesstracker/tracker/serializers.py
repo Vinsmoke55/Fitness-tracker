@@ -7,17 +7,22 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = "__all__"
 
+
 class ExerciseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Exercise
-        fields = "__all__"
-
-class WorkoutSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Workout
-        fields = "__all__"
+        fields = '__all__'
 
 class WorkoutExerciseSerializer(serializers.ModelSerializer):
+    exercise = ExerciseSerializer()
+
     class Meta:
         model = WorkoutExercise
-        fields = "__all__"
+        fields = '__all__'
+
+class WorkoutSerializer(serializers.ModelSerializer):
+    exercises = WorkoutExerciseSerializer(many=True)
+
+    class Meta:
+        model = Workout
+        fields = '__all__'

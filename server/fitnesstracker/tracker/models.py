@@ -11,22 +11,32 @@ class Exercise(models.Model):
     def __str__(self):
         return self.name
 
-class Workout(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    age = models.PositiveIntegerField(null=True, blank=True)
+    weight = models.FloatField(null=True, blank=True)
+    height = models.FloatField(null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+class Activity(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
     date = models.DateField()
-    exercises = models.ManyToManyField(Exercise, through='WorkoutExercise')
-    created_at = models.DateTimeField(auto_now_add=True)
+    duration = models.DurationField()
+    distance = models.FloatField(null=True, blank=True)
+    calories_burned = models.IntegerField(null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.user.username}'s workout on {self.date}"
+        return self.name
 
-class WorkoutExercise(models.Model):
-    workout = models.ForeignKey(Workout, on_delete=models.CASCADE)
-    exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
-    sets = models.PositiveIntegerField()
-    reps = models.PositiveIntegerField()
-    weight = models.DecimalField(max_digits=5, decimal_places=2)
+class Workout(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    activities = models.ManyToManyField(Activity, related_name='workouts', blank=True)
 
     def __str__(self):
-        return f"{self.exercise.name} - {self.sets} sets, {self.reps} reps, {self.weight} kg"
-
+        return self.name

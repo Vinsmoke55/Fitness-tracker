@@ -3,56 +3,27 @@ import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './nav'
 import Loader from './loader';
+import {useDispatch,useSelector} from 'react-redux'
+import {postSignup} from '../redux/features/signupSlice'
 
 const SignupPage = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading,setLoading]=useState(false);
+  const dispatch=useDispatch()
+  const userData=useSelector((state)=>state.signup)
   const navigateTo=useNavigate();
 
-  const getCSRFToken = () => {
-    const cookieValue = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('csrftoken='))
-      .split('=')[1];
-
-    return cookieValue;
-  };
+  
 
   const handleSignup = async () => {
-    try {
-      setLoading(true)
-      const csrfToken = getCSRFToken();
-
-      const response = await axios.post(
-        'http://localhost:8000/api/signup',
-        { username, email, password },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': csrfToken,
-          },
-        }
-      );
-
-      if (response.status === 200) {
-        console.log('Success:', response.data);
-        navigateTo('/');
-      } else {
-        console.log('Failed:', response.data);
-      }
-    } catch (error) {
-      console.error('Error during signup:', error.message);
-    }finally{
-      setLoading(false)
-    }
+    await dispatch(postSignup({username,email,password}))
   };
 
   return (
     <>
-      {loading && <Loader />}
-      {!loading && (
+      {userData.loading && <Loader />}
+      {!userData.loading && (
         <>
       <NavBar />
     <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 rounded-md shadow-md">

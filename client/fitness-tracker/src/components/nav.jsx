@@ -1,16 +1,13 @@
 import React,{useState,useEffect} from 'react';
 import { Link } from 'react-router-dom';
+import {useSelector} from 'react-redux'
 
 const Navbar = ({data,logout}) => {
     const [isSidebarOpen, setSidebarOpen] = useState(false);
     const [isLoggedIn,setIsLoggedIn]=useState(false)
-    const [userInfo, setUserInfo] = useState(data); // Initialize userInfo with the provided data
+    const userInfo=useSelector(state=>state.login)
+    const [userdata,setUserdata]=useState(userInfo.user)
 
-  // Store the initial data in local storage
-  // useEffect(() => {
-  //   localStorage.setItem('userData', JSON.stringify(data));
-  //   setUserInfo(localStorage.getItem('userData'))
-  // }, [data]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!isSidebarOpen);
@@ -31,17 +28,16 @@ const Navbar = ({data,logout}) => {
 
 
   const handleLogout = () => {
-    logout();
-    console.log(userInfo.username)
+    setUserdata(null)
   };
   return (
     <>
-      {userInfo ?(    
+      {userdata!=null ?(    
     <div className="bg-gray-500">
       <div className="flex overflow-hidden bg-gray-500">
         <div className={`absolute bg-gray-800 text-white w-56 min-h-screen overflow-y-auto transition-transform ${isSidebarOpen ? '' : 'transform -translate-x-full'} ease-in-out duration-300`} id="sidebar">
           <div className="p-4">
-            <h1 className="uppercase "><span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">{userInfo.username}</span></h1>
+            <h1 className="uppercase "><span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">{userdata.username}</span></h1>
             <ul className="mt-4 ml-3">
               <li className="mb-2"><a href="#" className="block hover:text-indigo-400">Workouts</a></li>
               <li className="mb-2"><a href="/profile" className="block hover:text-indigo-400">Profile</a></li>
